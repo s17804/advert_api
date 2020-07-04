@@ -1,25 +1,19 @@
 ﻿using System.Linq;
 using AdvertApi.Models;
 using AdvertApi.Services.Impl;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
-namespace AdvertApiTests
+namespace AdvertApiTests.Services
 {
-    [TestClass]
     public class BannerAreaCalculatorServiceTests
     {
-        private BannerAreaCalculatorService _service;
-
-        [TestInitialize]
-        public void InitializeTests()
-        {
-            _service = new BannerAreaCalculatorService();
-        }
         
-        [TestMethod]
-        public void CheckIfMethodCalculatesCorrectBannerAreaWhenBuildingsSizeNotEqual()
+        [Fact]
+        public void ShouldReturnTwoBannersWithDifferentArea()
         {
             // Arrange
+            var service = new BannerAreaCalculatorService();
             var buildingFrom = new Building
             {
                 City = "Testowo",
@@ -40,19 +34,21 @@ namespace AdvertApiTests
             const double secondBannerArea = 15.0;
             
             // Act
-            var banners = _service.CalculateBanners(buildingFrom, buildingTo);
+            var result = service.CalculateBanners(buildingFrom, buildingTo);
             
             // Assert
-            Assert.AreEqual(firstBannerArea, banners.Single(banner => 
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(firstBannerArea, result.Single(banner => 
                 banner.Name.Equals("First Banner")).Area);
-            Assert.AreEqual(secondBannerArea, banners.Single(banner => 
+            Assert.AreEqual(secondBannerArea, result.Single(banner => 
                 banner.Name.Equals("Second Banner")).Area);
         }
         
-        [TestMethod]
-        public void CheckIfMethodCalculatesCorrectBannerAreaWhenBuildingsSizeIsEqual()
+        [Fact]
+        public void ShouldReturnTwoBannersWitEqualArea()
         {
             // Arrange
+            var service = new BannerAreaCalculatorService();
             var buildingFrom = new Building
             {
                 City = "Testowo",
@@ -73,12 +69,13 @@ namespace AdvertApiTests
             const double secondBannerArea = 30.0;
             
             // Act
-            var banners = _service.CalculateBanners(buildingFrom, buildingTo);
+            var result = service.CalculateBanners(buildingFrom, buildingTo);
             
             // Assert
-            Assert.AreEqual(firstBannerArea, banners.Single(banner => 
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(firstBannerArea, result.Single(banner => 
                 banner.Name.Equals("First Banner")).Area);
-            Assert.AreEqual(secondBannerArea, banners.Single(banner => 
+            Assert.AreEqual(secondBannerArea, result.Single(banner => 
                 banner.Name.Equals("Second Banner")).Area);
         }
     }

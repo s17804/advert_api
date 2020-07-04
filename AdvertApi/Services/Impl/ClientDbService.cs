@@ -13,7 +13,6 @@ namespace AdvertApi.Services.Impl
         private readonly IMapper _mapper;
         private readonly IPasswordService _passwordService;
         
-
         public ClientDbService(AdvertDbContext advertDbContext, IMapper mapper, IPasswordService passwordService)
         {
             _advertDbContext = advertDbContext;
