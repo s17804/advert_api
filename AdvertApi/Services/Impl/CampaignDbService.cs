@@ -65,6 +65,11 @@ namespace AdvertApi.Services.Impl
             {
                 throw new ResourceNotFoundException("Building not found");
             }
+            
+            if (!buildingFrom.City.Equals(buildingTo.City))
+            {
+                throw new BadRequestException("Building not located in same city");
+            }
 
             if (!buildingFrom.Street.Equals(buildingTo.Street))
             {
